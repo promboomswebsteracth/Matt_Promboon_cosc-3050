@@ -64,6 +64,10 @@ int main(int argc, char** args) {
         }
         previous = current;
     }
+    for(int j=0;j<10;j++)
+    {
+        cout<<"Most Frequent word "<<j<<": "<<mostFr[j][0]<<"it appears: "<<mostFr[j][1]<<" times"<<endl;
+    }
     //cout << "The most freq word is " << mostfr << ". It appears " << maxcount << " times.\n";
     return 0;
 }
