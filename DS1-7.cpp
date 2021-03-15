@@ -16,58 +16,77 @@
 
 using namespace std;
 
-int main(int argc, char** args) {
-    std::fstream myFile;
-    if (argc < 2) 
-	{
+// Prints 10 most frequent words from a sorted word vector.
+// @param sortedvec a sorted vector containing words.
+void print10wordsfromvector(vector<string> sortedvec) 
+{
+    vector<string> alreadyprinted;
+    unsigned int printno = 0;
+    while (printno < 10)
+    {
+        printno++;
+        string cur = "";
+        string prev = "";
+        string mostfr = "";
+        int curcount = 0;
+        int maxcount = 0;
+        for (unsigned int i = 0; i < sortedvec.size(); i++)
+        {
+            cur = sortedvec[i];
+            //did we already print this word?
+            bool wasprinted = false;
+            for (unsigned int j=0; j<alreadyprinted.size(); j++)
+            {
+                if (cur == alreadyprinted[j]) wasprinted = true;
+            }
+            if (wasprinted) continue;
+            if (cur == prev) 
+            {
+                curcount++;
+            }
+            else 
+            {
+                curcount = 1;
+            }
+            if (curcount > maxcount) 
+            {
+                maxcount = curcount;
+                mostfr = cur;
+            }
+            prev = cur;
+        }
+        cout << "The " << printno << " most freq word is " << mostfr << ". It appears " << maxcount << " times.\n";
+        alreadyprinted.push_back(mostfr);
+    }
+}
+
+int main(int argc, char** args) 
+{
+    std::fstream myfile;
+    if (argc < 2) {
         cout << "Required parameter filename missing.\n";
         return 1;
     }
-    myFile.open(args[1]);
-    if (!(myFile.is_open())) { cout << "File " << args[1] << " not found\n"; return 1; }
+    char** second = args;
+    for (int i = 0; i < argc; i++) 
+    {
+        cout << i << " " << *second << "\n";
+        second++;
+    }
+    myfile.open(args[1]);
+    if (!(myfile.is_open())) { cout << "File " << args[1] << " not found\n"; return 1; }
     string s;
-    vector<string> strVec;
+    vector<string> strvec;
     int count = 0;
-    while (myFile >> s) 
-	{
+    while (myfile >> s) 
+    {
         count++;
         //cout << s << "\n";
-        strVec.push_back(s);
+        strvec.push_back(s);
     }
-    std::sort(strVec.begin(), strVec.end());
+    std::sort(strvec.begin(), strvec.end());
     cout << "Num words: " << count << "\n";
-    myFile.close();
-    string current = "";
-    string previous = "";
-    string mostFr[10][2];
-	int arrRowCount;
-    int curCount = 0;
-    int maxCount = 0;
-    for (int i = 0; i < strVec.size(); i++) 
-	{
-        current = strVec[i];
-        if (current == previous) 
-		{
-            curCount++;
-        }
-        else 
-		{
-            curCount = 1;
-        }
-        if (curCount > maxCount) 
-		{
-            maxCount = curCount;
-            mostFr[arrRowCount][0] = current;
-			mostFr[arrRowCount][1] = to_string(maxCount);
-			arrRowCount++;
-			if(arrRowCount==9) arrRowCount = 0;
-        }
-        previous = current;
-    }
-    for(int j=0;j<10;j++)
-    {
-        cout<<"Most Frequent word "<<j<<": "<<mostFr[j][0]<<"it appears: "<<mostFr[j][1]<<" times"<<endl;
-    }
-    //cout << "The most freq word is " << mostfr << ". It appears " << maxcount << " times.\n";
+    print10wordsfromvector(strvec);
+    myfile.close();
     return 0;
 }
