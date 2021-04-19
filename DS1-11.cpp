@@ -27,7 +27,7 @@ string myStack(string s)
 			}
 			catch (const char* msg)
             {
-				return "Valid mathematic expression.\n";
+				return "Not a valid mathematic expression.\n";
 			}
 		}
 	}
@@ -37,10 +37,10 @@ string myStack(string s)
 	}
 	catch (const char* msg) 
     {
-		return "Valid mathematic expression.\n";
+		return "Not a valid mathematic expression.\n";
 	}
 
-	return "Not a valid mathematic expression.\n";
+	return "Valid mathematic expression.\n";
 
 }
 
